@@ -18,7 +18,7 @@ app.use(urlencoded({ extended: false }));
 app.use(json());
 
 // Routes
-app.use('/api', require('./routes/index'));
+app.use('/api', require('./routes/users'));
 
 const main = async (): Promise<void | never> => {
   try {
