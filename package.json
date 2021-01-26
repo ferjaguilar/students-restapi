@@ -4,7 +4,8 @@
   "description": "Api rest for save simple information about students and subjects",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./dist/server.js",
+    "dev": "nodemon ./dist/server.js"
   },
   "author": "Fernando Jose Aguilar Rivas",
   "license": "ISC",
