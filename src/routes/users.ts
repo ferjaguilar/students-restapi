@@ -57,7 +57,6 @@ router.post('/login', async (req, res) => {
     }, 'pipperperry', { expiresIn: '24h' });
 
     return res.json({
-      userDB,
       token,
     });
   } catch (error) {
