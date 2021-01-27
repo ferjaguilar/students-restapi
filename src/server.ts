@@ -19,6 +19,7 @@ app.use(json());
 
 // Routes
 app.use('/api', require('./routes/users'));
+app.use('/api', require('./routes/students'));
 
 const main = async (): Promise<void | never> => {
   try {
