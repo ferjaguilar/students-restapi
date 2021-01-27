@@ -3,6 +3,7 @@ import Students from '../models/students';
 
 const router = express.Router();
 
+// Add new student
 router.post('/new-student', async (req, res) => {
   const { body } = req;
   try {
@@ -17,6 +18,20 @@ router.post('/new-student', async (req, res) => {
     // Create new students
     const studentDB = await Students.create(body);
     return res.json({ status: 'OK', studentDB });
+  } catch (error) {
+    return res.json({
+      status: 'Bad',
+      message: 'Bad request',
+      error,
+    });
+  }
+});
+
+// Get all students
+router.get('/get-students', async (req, res) => {
+  try {
+    const studentsDB = await Students.find();
+    return res.json({ status: 'OK', studentsDB });
   } catch (error) {
     return res.json({
       status: 'Bad',

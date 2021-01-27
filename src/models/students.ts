@@ -10,7 +10,7 @@ interface IStudent extends Document {
 }
 
 const studentSchema: Schema = new Schema({
-  code: { type: String, require:[true, 'Code is required'] },
+  code: { type: String, require: [true, 'Code is required'] },
   name: { type: String, required: [true, 'Name is required'] },
   lastName: { type: String, required: [true, 'Lastname is required'] },
   email: { type: String, unique: [true, 'This email alredy in use'], required: [true, 'Email is required'] },
