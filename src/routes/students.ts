@@ -41,4 +41,27 @@ router.get('/get-students', async (req, res) => {
   }
 });
 
+// Get a student
+router.get('/get-student/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Query get a student
+    const studentDB = await Students.findOne({ _id: id });
+
+    // Validation
+    if (!studentDB) {
+      return res.json({ status: 'OK', message: 'This student do not exist' });
+    }
+
+    // Result
+    return res.json({ status: 'OK', studentDB });
+  } catch (error) {
+    return res.json({
+      status: 'Bad',
+      message: 'Bad request',
+      error,
+    });
+  }
+});
+
 module.exports = router;
