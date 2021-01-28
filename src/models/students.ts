@@ -16,6 +16,7 @@ const studentSchema: Schema = new Schema({
   email: { type: String, unique: [true, 'This email alredy in use'], required: [true, 'Email is required'] },
   cellphone: { type: String, required: [true, 'Cellphone is required'] },
   address: { type: String, required: [true, 'Address is required'] },
+  status: { type: Boolean, required: [true, 'Status is required'], default: true },
 });
 
 export default model<IStudent>('Students', studentSchema);

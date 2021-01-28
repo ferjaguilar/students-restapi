@@ -1,4 +1,5 @@
 import express from 'express';
+import _ from 'underscore';
 import Students from '../models/students';
 
 const router = express.Router();
@@ -67,7 +68,7 @@ router.get('/get-student/:id', async (req, res) => {
 // Edit a student
 router.put('/edit-student/:id', async (req, res) => {
   const { id } = req.params;
-  const { body } = req;
+  const body = _.pick(req.body, ['code', 'name', 'lastName', 'email', 'cellphone', 'address']);
   try {
     // Comparation
     const findStudent = await Students.findOne({ _id: id });
