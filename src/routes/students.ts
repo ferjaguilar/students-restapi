@@ -7,6 +7,7 @@ const router = express.Router();
 // Add new student
 router.post('/new-student', async (req, res) => {
   const { body } = req;
+  body.createdAt = new Date().toString();
   try {
     // Comparation
     const findCode = await Students.findOne({ code: body.code });

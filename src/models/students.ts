@@ -7,6 +7,7 @@ interface IStudent extends Document {
   email: string;
   cellphone: string;
   address: string;
+  createdAt: string;
 }
 
 const studentSchema: Schema = new Schema({
@@ -17,6 +18,7 @@ const studentSchema: Schema = new Schema({
   cellphone: { type: String, required: [true, 'Cellphone is required'] },
   address: { type: String, required: [true, 'Address is required'] },
   status: { type: Boolean, required: [true, 'Status is required'], default: true },
+  createdAt: { type: String, required: [true, 'Created At is required'] },
 });
 
 export default model<IStudent>('Students', studentSchema);
