@@ -31,7 +31,7 @@ router.post('/new-student', async (req, res) => {
 // Get all students
 router.get('/get-students', async (req, res) => {
   try {
-    const studentsDB = await Students.find();
+    const studentsDB = await Students.find({ status: true });
     return res.json({ status: 'OK', studentsDB });
   } catch (error) {
     return res.json({
@@ -80,6 +80,32 @@ router.put('/edit-student/:id', async (req, res) => {
 
     // Edit Student
     const studentDB = await Students.findByIdAndUpdate({ _id: id }, body, { new: true });
+    return res.json({ status: 'OK', studentDB });
+  } catch (error) {
+    return res.json({
+      status: 'Bad',
+      message: 'Bad request',
+      error,
+    });
+  }
+});
+
+// Disable student
+router.delete('/disable-student/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Comparation
+    const findStudent = await Students.findOne({ _id: id });
+
+    // Validation
+    if (!findStudent) {
+      return res.json({ status: 'OK', message: 'Student do not found' });
+    }
+
+    // Disable student
+    const studentDB = await Students.findByIdAndUpdate(
+      { _id: id }, { status: false }, { new: true },
+    );
     return res.json({ status: 'OK', studentDB });
   } catch (error) {
     return res.json({
