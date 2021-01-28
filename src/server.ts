@@ -20,6 +20,7 @@ app.use(json());
 // Routes
 app.use('/api', require('./routes/users'));
 app.use('/api', require('./routes/students'));
+app.use('/api', require('./routes/subjects'));
 
 const main = async (): Promise<void | never> => {
   try {
