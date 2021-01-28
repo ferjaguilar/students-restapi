@@ -64,4 +64,29 @@ router.get('/get-student/:id', async (req, res) => {
   }
 });
 
+// Edit a student
+router.put('/edit-student/:id', async (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
+  try {
+    // Comparation
+    const findStudent = await Students.findOne({ _id: id });
+
+    // Validation
+    if (!findStudent) {
+      return res.json({ status: 'OK', message: 'Student do not found' });
+    }
+
+    // Edit Student
+    const studentDB = await Students.findByIdAndUpdate({ _id: id }, body, { new: true });
+    return res.json({ status: 'OK', studentDB });
+  } catch (error) {
+    return res.json({
+      status: 'Bad',
+      message: 'Bad request',
+      error,
+    });
+  }
+});
+
 module.exports = router;
