@@ -33,4 +33,19 @@ router.get('/get-subjects', async (req, res) => {
   }
 });
 
+// Get a subject
+router.get('/get-subject/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const subjectDB = await Subjects.find({ _id: id });
+    return res.json({ status: 'OK', subjectDB });
+  } catch (error) {
+    return res.json({
+      status: 'Bad',
+      message: 'Bad request',
+      error,
+    });
+  }
+});
+
 module.exports = router;
