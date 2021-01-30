@@ -19,4 +19,18 @@ router.post('/add-subject', async (req, res) => {
   }
 });
 
+// Get all subjects
+router.get('/get-subjects', async (req, res) => {
+  try {
+    const subjectsDB = await Subjects.find({ status: true });
+    return res.json({ status: 'OK', subjectsDB });
+  } catch (error) {
+    return res.json({
+      status: 'Bad',
+      message: 'Bad request',
+      error,
+    });
+  }
+});
+
 module.exports = router;
