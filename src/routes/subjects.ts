@@ -74,4 +74,21 @@ router.put('/edit-subject/:id', async (req, res) => {
   }
 });
 
+// Disable subject
+router.delete('/disable-subject/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const subjectDB = await Subjects.findByIdAndUpdate(
+      { _id: id }, { status: false }, { new: true },
+    );
+    return res.json({ status: 'OK', subjectDB });
+  } catch (error) {
+    return res.json({
+      status: 'Bad',
+      message: 'Bad request',
+      error,
+    });
+  }
+});
+
 module.exports = router;
