@@ -38,6 +38,15 @@ router.get('/get-subjects', async (req, res) => {
 router.get('/get-subject/:id', async (req, res) => {
   const { id } = req.params;
   try {
+    // Comparation
+    const findSubject = await Subjects.findOne({ _id: id });
+
+    // Validation
+    if (!findSubject) {
+      return res.json({ status: 'OK', message: 'Subject do not found' });
+    }
+
+    // Get subject
     const subjectDB = await Subjects.find({ _id: id });
     return res.json({ status: 'OK', subjectDB });
   } catch (error) {
@@ -78,6 +87,15 @@ router.put('/edit-subject/:id', async (req, res) => {
 router.delete('/disable-subject/:id', async (req, res) => {
   const { id } = req.params;
   try {
+    // Comparation
+    const findSubject = await Subjects.findOne({ _id: id });
+
+    // Validation
+    if (!findSubject) {
+      return res.json({ status: 'OK', message: 'Subject do not found' });
+    }
+
+    // Disable subject
     const subjectDB = await Subjects.findByIdAndUpdate(
       { _id: id }, { status: false }, { new: true },
     );
