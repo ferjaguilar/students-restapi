@@ -35,4 +35,28 @@ router.get('/get-inscriptions', async (req, res) => {
   }
 });
 
+// Get a inscription
+router.get('/get-inscription/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Comparation
+    const foundInscription = await Inscriptions.findOne({ _id: id })
+      .populate('student', 'code name lastName')
+      .populate('subjects', 'code subject schedule');
+
+    // Validation
+    if (!foundInscription) {
+      return res.json({ status: 'OK', message: 'Inscription information dont found' });
+    }
+
+    return res.json({ status: 'OK', foundInscription });
+  } catch (error) {
+    return res.json({
+      status: 'Bad',
+      message: 'Bad request',
+      error,
+    });
+  }
+});
+
 module.exports = router;
