@@ -21,6 +21,7 @@ app.use(json());
 app.use('/api', require('./routes/users'));
 app.use('/api', require('./routes/students'));
 app.use('/api', require('./routes/subjects'));
+app.use('/api', require('./routes/inscriptions'));
 
 const main = async (): Promise<void | never> => {
   try {
