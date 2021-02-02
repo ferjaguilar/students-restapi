@@ -1,11 +1,12 @@
 import express from 'express';
 import _ from 'underscore';
+import { verifyAuth, verifyRole } from '../middlewares/Authentication';
 import Students from '../models/students';
 
 const router = express.Router();
 
 // Add new student
-router.post('/new-student', async (req, res) => {
+router.post('/new-student', [verifyAuth, verifyRole], async (req: any, res: any) => {
   const { body } = req;
   body.createdAt = new Date().toString();
   try {
@@ -30,7 +31,7 @@ router.post('/new-student', async (req, res) => {
 });
 
 // Get all students
-router.get('/get-students', async (req, res) => {
+router.get('/get-students', verifyAuth, async (req, res) => {
   try {
     const studentsDB = await Students.find({ status: true });
     return res.json({ status: 'OK', studentsDB });
@@ -44,7 +45,7 @@ router.get('/get-students', async (req, res) => {
 });
 
 // Get a student
-router.get('/get-student/:id', async (req, res) => {
+router.get('/get-student/:id', verifyAuth, async (req, res) => {
   const { id } = req.params;
   try {
     // Query get a student
@@ -67,7 +68,7 @@ router.get('/get-student/:id', async (req, res) => {
 });
 
 // Edit a student
-router.put('/edit-student/:id', async (req, res) => {
+router.put('/edit-student/:id', [verifyAuth, verifyRole], async (req: any, res: any) => {
   const { id } = req.params;
   const body = _.pick(req.body, ['code', 'name', 'lastName', 'email', 'cellphone', 'address']);
   try {
@@ -92,7 +93,7 @@ router.put('/edit-student/:id', async (req, res) => {
 });
 
 // Disable student
-router.delete('/disable-student/:id', async (req, res) => {
+router.delete('/disable-student/:id', [verifyAuth, verifyRole], async (req:any, res:any) => {
   const { id } = req.params;
   try {
     // Comparation
