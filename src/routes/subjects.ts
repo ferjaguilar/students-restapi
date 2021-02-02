@@ -1,11 +1,12 @@
 import express from 'express';
 import _ from 'underscore';
+import { verifyAuth, verifyRole } from '../middlewares/Authentication';
 import Subjects from '../models/subjects';
 
 const router = express.Router();
 
 // Add subject
-router.post('/add-subject', async (req, res) => {
+router.post('/add-subject', [verifyAuth, verifyRole], async (req:any, res:any) => {
   const { body } = req;
   body.createdAt = Date.now().toString();
   try {
@@ -21,7 +22,7 @@ router.post('/add-subject', async (req, res) => {
 });
 
 // Get all subjects
-router.get('/get-subjects', async (req, res) => {
+router.get('/get-subjects', verifyAuth, async (req, res) => {
   try {
     const subjectsDB = await Subjects.find({ status: true });
     return res.json({ status: 'OK', subjectsDB });
@@ -35,7 +36,7 @@ router.get('/get-subjects', async (req, res) => {
 });
 
 // Get a subject
-router.get('/get-subject/:id', async (req, res) => {
+router.get('/get-subject/:id', verifyAuth, async (req, res) => {
   const { id } = req.params;
   try {
     // Comparation
@@ -59,7 +60,7 @@ router.get('/get-subject/:id', async (req, res) => {
 });
 
 // Edit subject
-router.put('/edit-subject/:id', async (req, res) => {
+router.put('/edit-subject/:id', [verifyAuth, verifyRole], async (req:any, res:any) => {
   const { id } = req.params;
   const body = _.pick(req.body, ['code', 'subject', 'teachers', 'schedule', 'students']);
   try {
@@ -84,7 +85,7 @@ router.put('/edit-subject/:id', async (req, res) => {
 });
 
 // Disable subject
-router.delete('/disable-subject/:id', async (req, res) => {
+router.delete('/disable-subject/:id', [verifyAuth, verifyRole], async (req:any, res:any) => {
   const { id } = req.params;
   try {
     // Comparation
