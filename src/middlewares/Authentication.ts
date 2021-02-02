@@ -15,4 +15,14 @@ const verifyAuth = (req: any, res: any, next: any) => {
   });
 };
 
-module.exports = { verifyAuth };
+// eslint-disable-next-line consistent-return
+const verifyRole = (req: any, res: any, next: any) => {
+  // eslint-disable-next-line prefer-const
+  let { role } = req.userDB;
+  if (role !== 'ADMIN') {
+    return res.json({ status: 'OK', message: 'Not authorized' });
+  }
+  next();
+};
+
+export { verifyAuth, verifyRole };
