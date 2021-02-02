@@ -1,10 +1,11 @@
 import express from 'express';
+import { verifyAuth, verifyRole } from '../middlewares/Authentication';
 import Inscriptions from '../models/inscriptions';
 
 const router = express.Router();
 
 // Add new inscription
-router.post('/add-inscriptions', async (req, res) => {
+router.post('/add-inscriptions', verifyAuth, async (req, res) => {
   const { body } = req;
   body.createdAt = Date.now().toString();
   try {
@@ -20,7 +21,7 @@ router.post('/add-inscriptions', async (req, res) => {
 });
 
 // Get all inscriptions
-router.get('/get-inscriptions', async (req, res) => {
+router.get('/get-inscriptions', verifyRole, async (req, res) => {
   try {
     const inscriptionsDB = await Inscriptions.find({ status: true })
       .populate('student', 'code name lastName')
@@ -36,7 +37,7 @@ router.get('/get-inscriptions', async (req, res) => {
 });
 
 // Get a inscription
-router.get('/get-inscription/:id', async (req, res) => {
+router.get('/get-inscription/:id', verifyAuth, async (req, res) => {
   const { id } = req.params;
   try {
     // Comparation
@@ -60,7 +61,7 @@ router.get('/get-inscription/:id', async (req, res) => {
 });
 
 // Diable inscription
-router.delete('disable-inscription/:id', async (req, res) => {
+router.delete('disable-inscription/:id', [verifyAuth, verifyRole], async (req:any, res:any) => {
   const { id } = req.params;
   try {
     const findInscription = await Inscriptions.findOne({ _id: id });
